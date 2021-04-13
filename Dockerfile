@@ -1,15 +1,17 @@
-FROM debian:jessie
+FROM debian:buster
 
-MAINTAINER KillYourTV <killyourtv@i2pmail.org>
-ENV I2P_VERSION 0.9.23-1~deb8u+1
+#MAINTAINER KillYourTV <killyourtv@i2pmail.org>
+#ENV I2P_VERSION 0.9.23-1~deb8u+1
 ENV I2P_DIR /usr/share/i2p
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN echo "deb http://deb.i2p2.no/ jessie main" > /etc/apt/sources.list.d/i2p.list
+#RUN echo "deb https://deb.i2p2.de/ buster main" > /etc/apt/sources.list.d/i2p.list
 
-RUN apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv-key 0x67ECE5605BCF1346 && \
+RUN apt-get update && apt-get -y install gnupg2 ca-certificates && \
+    apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv-key 0x67ECE5605BCF1346 && \
+    echo "deb https://deb.i2p2.de/ buster main" > /etc/apt/sources.list.d/i2p.list && \
     apt-get update && \
-    apt-get -y install --no-install-recommends i2p="${I2P_VERSION}" locales && \
+    apt-get -y install --no-install-recommends i2p i2p-keyring locales procps && \
     echo "RUN_AS_USER=i2psvc" >> /etc/default/i2p && \
     apt-get clean && \
     rm -rf /var/lib/i2p && mkdir -p /var/lib/i2p/i2p-config && chown -R i2psvc:i2psvc /var/lib/i2p && \
