@@ -3,7 +3,8 @@ This is an unofficial Dockerized I2P within a Debian Jessie image.
 Run with the following:
 
 ````
-docker run --name i2p -p 7657:7657 -p 4444:4444 -p 6668:6668 kytv/i2p
+
+docker run --name i2p -d -p 7655:7655/udp -p 7656:7656 -p 7657:7657 -p 4444:4444 -p 6668:6668 shtripok/i2p
 ````
 
 Publish how many (or how few) ports as you want. Ports exposed by default include
